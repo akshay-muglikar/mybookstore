@@ -1,7 +1,7 @@
 # MyStore
 
 
-![Alt text](/ss.JPG?raw=true "Title")
+![Alt text](/ss.jpg?raw=true "Title")
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.1.1.
 
 ## Development server
