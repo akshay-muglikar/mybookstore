@@ -1,0 +1,45 @@
+
+<div class="cart" (click)="open(content)">
+   <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
+        <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+    </svg><span class="badge badge-secondary"> {{getCart()}}
+        {{this.cart.length}}</span> Cart
+   
+</div>
+
+<ng-template #content let-modal>
+    <div class="modal-header">
+      <h4 class="modal-title">Checkout</h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body" *ngIf="this.cart.length>0">
+        <div *ngFor="let product of cart; let i = index">
+            <div class="card-body row">
+                <div class="card-title book-title col-md-9" title="{{product.title}}"> {{i+1}}.  {{product.title}}</div>
+                <div class=" col-md-2"><a href="#"> ₹ {{product.price}}</a></div>
+                <button type="button" class="close  col-md-1" aria-label="Close" (click)="removeFromCart(i)">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                
+            </div>
+        </div>
+        <div>
+            <div class="card-body row">
+                <div class="card-title book-title col-md-9">Total</div>
+                <div class=" col-md-2"><a href="#">{{total}} </a></div>
+               
+                
+            </div>
+        </div>
+    </div>
+    <div class="modal-body" *ngIf="this.cart.length==0">
+        No Items in Cart
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-light" *ngIf="this.cart.length>0" (click)="modal.close('Close click');checkout(true);">Proceed to Checkout</button>
+      <button type="button" class="btn btn-light" (click)="modal.close('Close click');checkout(false);">Close</button>
+    </div>
+  </ng-template>
+  <app-checkout *ngIf="checkoutnow" [checkoutnow]="checkoutnow" [total]="total"></app-checkout>

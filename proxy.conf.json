@@ -1,0 +1,18 @@
+{
+  "/api/*": {
+    "target": "http://localhost:8080/my-store/",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {"^/api" : ""}
+  },
+ 
+  "/pay/*": {
+    "target": "https://www.instamojo.com/api/1.1/payment-requests/",
+    "secure": false,
+    "changeOrigin": true,
+    "pathRewrite": {"^/pay/" : ""}
+  },
+  "logLevel": "debug"
+
+  
+}

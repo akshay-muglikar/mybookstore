@@ -1,0 +1,88 @@
+
+
+<div class="toolbar" role="banner">
+   
+    <span>My Store</span>
+    <app-cart></app-cart>
+         
+     
+</div>
+<div class="row product-section">
+   
+    <div class="col-md-3 filter-selection">
+        <div class="col">
+            <div class="filter-label">Sort By: </div>
+            <div ngbDropdown class="d-inline-block">
+              <button class="btn btn-outline-primary sort-by" id="dropdownBasic1" ngbDropdownToggle>{{sort}}</button>
+              <button  (click)="sorDirUpdate()" *ngIf="sortDir=='DSC'" class="btn btn-outline-primary sort-by ">
+                  <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
+              </svg></button>
+              <button (click)="sorDirUpdate()" *ngIf="sortDir=='ASC'" class="btn btn-outline-primary sort-by ">
+              <svg  mlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
+              </svg></button>
+              
+              <div ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                <button *ngFor="let sortByOption of sortBy;"ngbDropdownItem (click)="sortData(sortByOption)">{{sortByOption}}</button>
+              </div>
+            </div>
+            </div>
+            <div class="col filter-type">
+                <div class="filter-label"> Search </div>
+               
+                <div class="row">
+                    <div class="col-md-9"><input id="typeahead-basic" type="text" class="form-control" [(ngModel)]="name" /></div>
+                    <div class="col-md-3"><button  class="btn btn-outline-primary" (click)="search()"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                      </svg></button></div>
+                </div>
+                <div class="rating" *ngIf="name!=''" (click)="clearSearch()">Clear</div>
+            </div>
+            <div class="col filter-type">
+                <div class="filter-label"> Avg. Customer Review</div>
+                <div class="rating" *ngIf="avgRating>0" (click)="clearRating()">Clear</div>
+                <div>
+                  <div class="rating {{avgRating==4?'activecomp':''}}" (click)="filterRating(4)">4<ngb-rating [rate]="1" [max]="1"></ngb-rating> & Up</div>
+                  <div class="rating {{avgRating==3?'activecomp':''}}" (click)="filterRating(3)">3<ngb-rating [rate]="1" [max]="1"></ngb-rating> & Up</div>
+                  <div class="rating {{avgRating==2?'activecomp':''}}" (click)="filterRating(2)">2<ngb-rating [rate]="1" [max]="1"></ngb-rating> & Up</div>
+                </div>
+            </div>
+            <div class="col filter-type">
+                <div class="filter-label"> Price</div>
+                <div class="rating" *ngIf="minPrice>0" (click)="clearPrice()">Clear</div>
+                <div>
+                  <div class="rating {{minPrice==200?'activecomp':''}}" (click)="filterPrice(200, 230)">₹200 - ₹230</div>
+                  <div class="rating {{minPrice==230?'activecomp':''}}" (click)="filterPrice(230, 260)">₹230 - ₹260</div>
+                  <div class="rating {{minPrice==260?'activecomp':''}}" (click)="filterPrice(260, 400)">₹260 - ₹400</div>
+                  </div>
+            </div>
+            
+    </div>
+    <div class="col-md-9 product-details-section-1">
+        <div  *ngIf="!loading">
+            <app-product-detail *ngFor="let product of productsToDisplay; let i = index"
+            [product]="product" [image]="productImages[i%10].Image">    </app-product-detail>
+        </div>
+        <div class="spinner-border atcentre" role="status" *ngIf="loading">
+            <span class="sr-only">Loading...</span>
+          </div>
+
+          <div class=" atcentre" role="status" *ngIf="!loading && productsToDisplay.length==0">
+            No records to display
+          </div>
+
+
+    
+    <div class="product-page row" *ngIf="totalPages>6 && !loading">
+        <ngb-pagination [collectionSize]="totalPages" [rotate]="true" [maxSize]="5" [(page)]="page" (pageChange)="loadPage($event)">
+            <ng-template ngbPaginationPrevious>Prev</ng-template>
+            <ng-template ngbPaginationNext>Next</ng-template>
+        </ngb-pagination>
+    </div> 
+
+    </div>
+   
+</div>
+
+  
